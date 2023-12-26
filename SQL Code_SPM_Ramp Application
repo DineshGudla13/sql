@@ -1,0 +1,29 @@
+[1] Which card has the most spend? : Card Id : 8cd544eb2379a8dfdcc9ddea2d3df71e ; Amount Spend : 137650.27 
+Query : 
+Select card_id, sum(amount) as total_amount
+from  transactions 
+group by card_id
+order by total_amount desc
+
+[2] Which card program has the most number of individual transactions? : SuperUser Card & PCARD : 6
+
+Select cp.display_name as card_program, count(trans.id) as cnt_transactions
+from  card_programs cp
+left join cards 
+on cp.id = cards.card_program_id
+left join transactions trans 
+on cards.id = trans.card_id
+group by cp.display_name
+order by cnt_transactions desc;
+
+[3] Which card program had the most transactions in October? Primary Supplies & Materials : 2
+
+Select cp.display_name as card_program, count(trans.id) as cnt_transactions
+from  card_programs cp
+left join cards 
+on cp.id = cards.card_program_id
+left join transactions trans 
+on cards.id = trans.card_id
+where month(user_transaction_time)=10
+group by cp.display_name
+order by cnt_transactions desc;
